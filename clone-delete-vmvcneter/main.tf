@@ -1,7 +1,7 @@
 provider "vsphere" {
-  user           = var.vsphere_user
-  password       = var.vsphere_password
-  vsphere_server = var.vsphere_server
+  user                 = var.vsphere_user
+  password             = var.vsphere_password
+  vsphere_server       = var.vsphere_server
   allow_unverified_ssl = true
 }
 
@@ -73,5 +73,12 @@ resource "vsphere_virtual_machine" "vm" {
       ipv4_gateway = var.ipv4_gateway
     }
   }
-}
+
+  # Ignore changes that could force recreation
+  lifecycle {
+    ignore_changes = [
+      disk,
+      network_interface
+    ]
+  }
 
